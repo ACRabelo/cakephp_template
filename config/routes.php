@@ -40,13 +40,16 @@ $routes->scope('/', function (RouteBuilder $builder) {
     $builder->post('/companies', ['controller' => 'Companies', 'action' => 'add']);
     $builder->get('/companies', ['controller' => 'Companies', 'action' => 'index']);
 
-    $builder->patch('/companies/:id/deactivate', ['controller' => 'Companies', 'action' => 'deactivate'])
-        ->setPass(['id'])
-    ;
-    $builder->patch('/companies/:id/active', ['controller' => 'Companies', 'action' => 'active'])
-        ->setPass(['id'])
-    ;
+    $builder->patch('/companies/:id/deactivate', ['controller' => 'Companies', 'action' => 'deactivate'])->setPass(['id']);
+    $builder->patch('/companies/:id/active', ['controller' => 'Companies', 'action' => 'active'])->setPass(['id']);
 
+    //Cars
+    $builder->get('/cars', ['controller' => 'Cars', 'action' => 'index']);
+    $builder->post('/cars/add', ['controller' => 'Cars', 'action' => 'add']);
+    $builder->get('/cars/:id/show', ['controller' => 'Cars', 'action' => 'show']);
+    $builder->put('/cars/:id/edit', ['controller' => 'Cars', 'action' => 'edit']);
+    $builder->delete('/cars/:id/delete', ['controller' => 'Cars', 'action' => 'delete']);
+    $builder->get('/cars/:id/transfer', ['controller' => 'Cars', 'action' => 'trasfer']);
     $builder->fallbacks();
 });
 
