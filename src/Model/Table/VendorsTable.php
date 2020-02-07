@@ -10,7 +10,7 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Cars Model
+ * Vendors Model
  *
  * @property \App\Model\Table\CompaniesTable&\Cake\ORM\Association\BelongsTo $Companies
  *
@@ -23,7 +23,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\User[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\User findOrCreate($search, callable $callback = null, $options = [])
  */
-class CarsTable extends Table
+class VendorsTable extends Table
 {
     use CreateRecordTrait;
     /**
@@ -36,22 +36,11 @@ class CarsTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('cars');
+        $this->setTable('vendor');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
         $this->addBehavior('Timestamp');
 
-        $this->hasMany('Users', [
-            'foreignKey' => 'user_id',
-        ]);
-
-        $this->belongsTo('Users', [
-            'foreignKey' => 'user_id',
-        ]);
-
-        $this->belongsTo('Vendors', [
-            'foreignKey' => 'vendor_id',
-        ]);
     }
 
     /**
@@ -71,42 +60,6 @@ class CarsTable extends Table
             ->maxLength('name', 50)
             ->requirePresence('name', 'create')
             ->notEmptyString('name');
-
-        $validator
-            ->scalar('year')
-            ->maxLength('year', 4)
-            ->requirePresence('year', 'create')
-            ->notEmptyString('year');
-
-        $validator
-            ->scalar('year_model')
-            ->maxLength('year_model', 4)
-            ->requirePresence('year_model', 'create')
-            ->notEmptyString('year_model');
-
-        $validator
-            ->scalar('chassi')
-            ->maxLength('chassi', 50)
-            ->requirePresence('chassi', 'create')
-            ->notEmptyString('chassi');
-
-        $validator
-            ->scalar('identifier')
-            ->maxLength('identifier', 10)
-            ->requirePresence('identifier', 'create')
-            ->notEmptyString('identifier');
-
-        $validator
-            ->scalar('model')
-            ->maxLength('model', 10)
-            ->requirePresence('model', 'create')
-            ->notEmptyString('model');
-
-        $validator
-            ->scalar('color')
-            ->maxLength('color', 10)
-            ->requirePresence('color', 'create')
-            ->notEmptyString('color');
 
         $validator
             ->dateTime('created_at')

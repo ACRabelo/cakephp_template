@@ -6,7 +6,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Company Entity
+ * Vendor Entity
  *
  * @property string $id
  * @property string $name
@@ -17,7 +17,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\User[] $users
  */
-class Company extends Entity
+class Vendor extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -31,10 +31,5 @@ class Company extends Entity
     protected $_accessible = [
         'id' => false,
         'name' => true,
-        'active' => true,
-        'description' => true,
-        'created_at' => true,
-        'modified_at' => true,
-        'users' => true,
     ];
 }

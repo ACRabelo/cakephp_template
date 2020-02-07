@@ -10,7 +10,7 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Users Model
+ * Cars Model
  *
  * @property \App\Model\Table\CompaniesTable&\Cake\ORM\Association\BelongsTo $Companies
  *
@@ -23,7 +23,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\User[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\User findOrCreate($search, callable $callback = null, $options = [])
  */
-class UsersTable extends Table
+class CarsTable extends Table
 {
     use CreateRecordTrait;
     /**
@@ -36,13 +36,18 @@ class UsersTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('users');
+        $this->setTable('cars');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Companies', [
-            'foreignKey' => 'company_id',
+        $this->hasMany('Users', [
+            'foreignKey' => 'user_id',
+        ]);
+
+
+        $this->belongsTo('Vendors', [
+            'foreignKey' => 'vendor_id',
         ]);
     }
 
@@ -65,26 +70,40 @@ class UsersTable extends Table
             ->notEmptyString('name');
 
         $validator
-            ->scalar('last_name')
-            ->maxLength('last_name', 50)
-            ->requirePresence('last_name', 'create')
-            ->notEmptyString('last_name');
+            ->scalar('year')
+            ->maxLength('year', 4)
+            ->requirePresence('year', 'create')
+            ->notEmptyString('year');
 
         $validator
-            ->boolean('active')
-            ->allowEmptyString('active');
+            ->scalar('year_model')
+            ->maxLength('year_model', 4)
+            ->requirePresence('year_model', 'create')
+            ->notEmptyString('year_model');
 
         $validator
-            ->scalar('username')
-            ->maxLength('username', 60)
-            ->requirePresence('username', 'create')
-            ->notEmptyString('username');
+            ->scalar('chassi')
+            ->maxLength('chassi', 50)
+            ->requirePresence('chassi', 'create')
+            ->notEmptyString('chassi');
 
         $validator
-            ->scalar('password')
-            ->maxLength('password', 255)
-            ->requirePresence('password', 'create')
-            ->notEmptyString('password');
+            ->scalar('identifier')
+            ->maxLength('identifier', 10)
+            ->requirePresence('identifier', 'create')
+            ->notEmptyString('identifier');
+
+        $validator
+            ->scalar('model')
+            ->maxLength('model', 60)
+            ->requirePresence('model', 'create')
+            ->notEmptyString('model');
+
+        $validator
+            ->scalar('color')
+            ->maxLength('color', 10)
+            ->requirePresence('color', 'create')
+            ->notEmptyString('color');
 
         $validator
             ->dateTime('created_at')
@@ -94,26 +113,8 @@ class UsersTable extends Table
             ->dateTime('modified_at')
             ->allowEmptyDateTime('modified_at');
 
-        $validator
-            ->allowEmptyString('role')
-            ->maxLength('role', 20)
-        ;
 
         return $validator;
     }
 
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules): RulesChecker
-    {
-        $rules->add($rules->isUnique(['username']));
-        $rules->add($rules->existsIn(['company_id'], 'Companies'));
-
-        return $rules;
-    }
 }

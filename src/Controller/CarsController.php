@@ -3,20 +3,23 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Controller\AppController;
 use Cake\Http\Response;
 
 /**
- * Companies Controller
+ * Cars Controller
  *
- * @property \App\Model\Table\CompaniesTable $Companies
+ * @property \App\Model\Table\CarsTable $Cars
  *
  * @method \App\Model\Entity\Company[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class CompaniesController extends AppController
+class CarsController extends AppController
 {
     public function index()
     {
-        return $this->responseNotImplemented();
+        $cars = $this->Cars->find('all');
+
+        return $this->responseWithSuccess($cars);
     }
 
     /**
@@ -27,38 +30,58 @@ class CompaniesController extends AppController
      */
     public function add()
     {
-        $company = $this->Companies->instanceAndValidate(
+
+        $company = $this->Cars->instanceAndValidate(
             $this->request->getData()
         );
 
-        $this->Companies->createOrFail($company, true);
+        $this->Cars->createOrFail($company, true);
 
-        return $this
-            ->responseWithSuccess($company);
+        return $this->responseWithSuccess($company);
     }
 
-
-    /**
-     * Rota para desativação de uma companhia
-     * @param $id
-     * @return Response
-     */
-    public function deactivate($id)
+    public function show($id = null)
     {
-        $this->Companies->enableCompany($id, false);
-        return $this
-            ->responseOk();
+        $car = $this->Cars->get($id);
+
+        return $this->responseWithSuccess($car);
     }
 
-    /**
-     * Rota para ativação de uma companhia
-     * @param $id
-     * @return Response
-     */
-    public function active($id)
+    public function edit($id = null)
     {
-        $this->Companies->enableCompany($id, true);
-        return $this
-            ->responseOk();
+        $car = $this->Cars->get($id);
+
+        if ($this->request->is(['put'])) {
+
+            $this->Cars->patchEntity($car, $this->request->getData());
+            if ($this->Cars->save($car)) {
+                return $this->responseWithSuccess($car);
+            }
+
+            return $this->responseWithErrors($car);
+        }
     }
+
+    public function delete($id = null)
+    {
+        $car = $this->Cars->get($id);
+
+        if ($this->request->is(['delete'])) {
+
+            if ($this->Cars->delete($car)) {
+                return $this->responseOk();
+            }
+
+            return $this->responseWithErrors($car);
+        }
+    }
+
+    public function transfer()
+    {
+        return $this->responseNotImplemented();
+    }
+
+
+
+
 }

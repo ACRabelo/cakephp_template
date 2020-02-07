@@ -6,7 +6,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Company Entity
+ * Car Entity
  *
  * @property string $id
  * @property string $name
@@ -17,7 +17,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\User[] $users
  */
-class Company extends Entity
+class Car extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -31,10 +31,17 @@ class Company extends Entity
     protected $_accessible = [
         'id' => false,
         'name' => true,
-        'active' => true,
+        'year' => true,
+        'year_model' => true,
         'description' => true,
+        'chassi' => true,
+        'identifier' => true,
+        'model' => true,
+        'color' => true,
+        'client_id' => true,
+        'company_id' => true,
+        'vendor_id' => true,
         'created_at' => true,
         'modified_at' => true,
-        'users' => true,
     ];
 }
